@@ -1,38 +1,59 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.signup-page, .signin-page, .passwordreset-page {
+  background-image: linear-gradient(to right, #608BC1, #fff);
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.form-wrapper {
+  position: relative;
+  width: 30%;
+}
+
+.signup-form-container, .signin-form-container, .passwordreset-form-container {
+  background: rgba(255,255,255,0.6);
+  padding: 35px 20px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 2px 0px #fefefe;
+  backdrop-filter: blur(45px);
+  border: none;
+ 
+}
+
+.signup-form-container .title, .signin-form-container .title, .passwordreset-form-container .title {
+  margin-bottom: 15px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo-container {
+  text-align: center;
+  
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.logo-container img {
+  width: 160px;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-account-status {
+  text-align: center;
 }

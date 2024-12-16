@@ -1,0 +1,11 @@
+.home-container {
+    height: 100vh;
+    width: 100%;
+    background: #fff
+}
+
+.home-container .header {
+    height: 80px;
+    width: 100%;
+    padding: 0px 20px;
+}
