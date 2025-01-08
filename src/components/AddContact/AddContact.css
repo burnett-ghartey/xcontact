@@ -1,12 +1,10 @@
-.add-contact {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    max-width: 100%;
-}
 
 .add-contact-container {
+    position: absolute;
+    background: red;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 45%;
     background: #fff;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -65,3 +63,4 @@
 .add-contact-container .form-container .form-group label {
     margin-bottom: 5px;
 }
+

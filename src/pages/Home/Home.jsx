@@ -1,128 +1,107 @@
 import "./Home.css";
 import React from "react";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  updateDoc,
-  doc,
-  deleteDoc,
-  query,
-  where,
-} from "firebase/firestore";
-import { db } from "../../firebase";
-import logo from "../../assets/images/logo.png"
+import { useState } from "react";
+import logo from "../../assets/images/logo.png";
+import AddContact from "../../components/AddContact/AddContact";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const menus = [
+  { name: "Dashboard", url: "notifications", src: "notifications.svg" },
+  { name: "Recent", url: "notifications", src: "notifications.svg" },
+  { name: "Notifications", url: "notifications", src: "notifications.svg" },
+  { name: "Trash", url: "notifications", src: "notifications.svg" },
+  { name: "Settings", url: "notifications", src: "notifications.svg" },
+];
 
 export default function Home() {
-  //  Add a Document to a Firestore Collection
-  const addContact = async () => {
-    try {
-      const contactRef = collection(db, "contact");
-      const docRef = await addDoc(contactRef, {
-        name: "John Doe",
-        email: "johndoe@example.com",
-        phone: "123-456-7890",
-        address: "123 Elm Street",
-        createdAt: serverTimestamp(),
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.log("Error adding document: ", error);
-    }
-  };
+  const [showContact, setShowContact] = useState(false);
 
-  const updateContact = async (contactId, updatedData) => {
-    try {
-      // reference the specific document
-      const contactRef = collection(db, "contact", contactId);
-
-      // update the document
-      await updateDoc(contactRef, updatedData);
-
-      console.log("Document updated successfully");
-    } catch (error) {
-      console.log("Error updating document", error);
-    }
-  };
-
-  //  Fetch Data from Firestore Using getDocs
-  const fetchContacts = async () => {
-    try {
-      const contactRef = collection(db, "contact");
-
-      const querySnapshot = await getDocs(contactRef);
-
-      const contacts = querySnapshot.docs.map((doc) => ({
-        id: doc.id, // Document ID
-        ...doc.data(), // Document fields
-      }));
-
-      console.log("contacts", contacts);
-    } catch (error) {
-      console.log("Error fetching contacts", error);
-    }
-  };
-
-  const deleteContact = async (contactId) => {
-    try {
-      const contactRef = doc(db, "contact", contactId);
-
-      await deleteDoc(contactRef);
-
-      console.log(`Document with ID ${contactId} deleted successfully.`);
-    } catch (error) {
-      console.log("Error deleting document");
-    }
-  };
-
-  const getContactsbyName = async (name) => {
-    try {
-      const contactRef = collection(db, "contact");
-
-      const q = query(contactRef, where("name", "===", name));
-
-      const querySnapshot = await getDocs(q);
-
-      const contacts = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      console.log("filtered contacts", contacts);
-    } catch (error) {
-      console.log("");
-    }
-  };
-
-  //  Combining Equality and Inequality Filters
-  const queryMultiple = () => {
-    try {
-      const query = collection(db, "contact")
-        .where("name", "==", "John Doe")
-        .where("email", "==", "john@example.com");
-      query.get().then((snapshot) => {
-        snapshot.foreach((doc) => console.log(doc.data()));
-      });
-    } catch (error) {}
-  };
+  const notify = (message, type = "success") => toast(message, { type });
 
   return (
     <div className="home">
+      {showContact && (
+        <AddContact setShowContact={setShowContact} notify={notify} />
+      )}
       <div className="home-container">
         <div className="header">
-          <div className="logo">
-            <img src={logo} alt="logo" width="80px"/>
+          <div className="logo h-block">
+            <img src={logo} alt="logo" width="80px" />
           </div>
-          <div className="nav"></div>
-          <div className="account"></div>
+          <div className="nav h-block">
+            <ul
+              className="home-nav-items"
+              style={{
+                display: "flex",
+                gap: "15px",
+                justifyContent: "center",
+                listStyleType: "none",
+              }}
+            >
+              <li className="selected">Contacts</li>
+              <li>Favourites</li>
+              <li>Groups</li>
+            </ul>
+          </div>
+          <div
+            className="account h-block"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <img
+              style={{ cursor: "pointer" }}
+              src="/assets/icons/315813_moon_half_icon.png"
+              alt="theme"
+              width="55px"
+            />
+            <img
+              style={{
+                borderRadius: "50%",
+                border: "2px solid #000B58",
+                cursor: "pointer",
+              }}
+              src="/assets/images/uifaces-popular-image.jpg"
+              alt="user"
+              width="35px"
+            />
+          </div>
         </div>
         <div className="home_layout">
-          <div className="left">1</div>
-          <div className="middle"></div>
-          <div className="right"></div>
+          <div className="left">
+            <ul
+              style={{
+                listStyleType: "none",
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px",
+                cursor: "pointer",
+              }}
+            >
+              {menus.map((menu, i) => (
+                <li
+                  key={i}
+                  style={{ display: "flex", gap: "2px", color: "#5f6c7b" }}
+                >
+                  <img src={menu.src} width="40px" />
+                  {menu.name}
+                </li>
+              ))}
+            </ul>
+            <div className="add-contact-wrap">
+              <button
+                onClick={() => setShowContact(true)}
+                className="addcontact-btn"
+              >
+                Add contact
+              </button>
+            </div>
+          </div>
+          <div className="middle">middle</div>
+          <div className="right">right</div>
         </div>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

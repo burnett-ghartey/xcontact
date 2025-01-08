@@ -37,9 +37,10 @@ export const validateName = (name) => {
 }
 
 export const validatePhone = (phone) => {
-    if (!phone.trim()) {
+    if (!phone) {
         return 'Phone is required'
     }
+    return true
 }
 
 
